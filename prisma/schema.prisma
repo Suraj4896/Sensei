@@ -1,0 +1,154 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//models
+model User {
+  id            String  @id @default(uuid())
+  clerkUserId   String  @unique
+  email         String  @unique
+  name          String?
+  imageUrl      String?
+  industry      String?
+  industryInsight IndustryInsight? @relation(fields: [industry], references: [industry])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  //profile fields
+  bio           String?
+  experience    Int?     //years of experience
+  skills        String[]  //array of skills
+
+  assessments   Assessment[]
+  resume        Resume?
+  coverLetter   CoverLetter[]
+}
+
+// Updated Prisma Schema
+model Assessment {
+  id              String    @id @default(uuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
+  quizScore       Float
+  questions       Json[]     // Array of question objects (including topic field)
+  topics          String[]   // Array of selected topics for this quiz
+  questionCount   Int        // Number of questions in the quiz
+  difficulty      String?    // Easy/Medium/Hard (if implementing difficulty levels)
+  timeLimit       Int?       // In minutes (if implementing timed quizzes)
+  improvementTip  String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// Add these new enums
+enum QuizTopic {
+  DATA_STRUCTURES
+  ALGORITHMS
+  SYSTEM_DESIGN
+  BEHAVIORAL
+  FRONTEND
+  BACKEND
+  DBMS
+  NETWORKING
+  SECURITY
+  CLOUD_COMPUTING
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+}
+
+// Modified Question structure in the JSON field should include:
+/*
+type Question = {
+  question: string
+  options: string[]
+  correctAnswer: string
+  explanation: string
+  topic: QuizTopic
+  difficulty: DifficultyLevel
+}
+*/
+
+model Resume{
+  id              String @id @default(uuid())
+  userId          String @unique  //one resume per user
+  user            User   @relation(fields: [userId], references: [id])
+  content         String @db.Text   //markdown content
+  atsScore        Float?  
+  feedback        String? 
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CoverLetter{
+  id              String @id @default(uuid())
+  userId          String  
+  user            User   @relation(fields: [userId], references: [id])
+  content         String //markdown content
+  jobDescription  String?  
+  companyName     String  //name of the company applying to
+  jobTitle        String  //position apply for 
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model IndustryInsight {
+  id            String    @id @default(cuid())
+  industry      String    @unique  // The industry this data belongs to (e.g., "tech-software-development")
+  
+  // Users in this industry
+  users         User[]
+  
+  // Salary data
+  salaryRanges  Json[]    // Array of { role: string, min: float, max: float, median: float, location: string? }
+  
+  // Industry trends
+  growthRate    Float     // Industry growth rate
+  demandLevel   DemandLevel    // "High", "Medium", "Low"
+  topSkills     String[]  // Most in-demand skills
+  
+  // Market conditions
+  marketOutlook MarketOutlook    // "Positive", "Neutral", "Negative"
+  keyTrends     String[]  // Array of current industry trends
+  
+  // Learning suggestions
+  recommendedSkills String[]  // Skills recommended for the industry
+  
+  lastUpdated   DateTime  @default(now())
+  nextUpdate    DateTime  // Scheduled update time
+
+  @@index([industry])
+}
+
+enum DemandLevel {
+  High
+  MEDIUM
+  LOW
+}
+
+enum MarketOutlook {
+  POSITIVE
+  NEUTRAL 
+  NEGATIVE
+}
+
