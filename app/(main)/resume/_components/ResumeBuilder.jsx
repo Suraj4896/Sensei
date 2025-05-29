@@ -23,7 +23,7 @@ import EntryForm from "./EntryForm";
 import { entriesToMarkdown } from "@/app/lib/helper";
 import MDEditor from "@uiw/react-md-editor";
 import { useUser } from "@clerk/nextjs";
-import html2pdf from "html2pdf.js";
+import html2pdf from "html2pdf.js/dist/html2pdf.min.js";
 import { toast } from "sonner";
 
 const ResumeBuilder = ({ initialContent }) => {
@@ -405,7 +405,7 @@ const ResumeBuilder = ({ initialContent }) => {
             />
           </div>
           <div className="hidden">
-            <div id="resume-pdf">
+            <div id="resume-pdf" className="pdf-safe-colors p-6 text-black bg-white">
               <MDEditor.Markdown
                 source={previewContent}
                 style={{

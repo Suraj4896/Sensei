@@ -171,3 +171,11 @@
   background-image: linear-gradient(to bottom, #9ca3af, #e5e7eb, #4b5563); /* gray-400, 200, 600 */
 }
 
+/* globals.css */
+.pdf-safe-colors * {
+  color: black !important;
+  background-color: white !important;
+  border-color: black !important;
+}
+
+
