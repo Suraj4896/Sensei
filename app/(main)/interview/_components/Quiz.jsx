@@ -264,7 +264,7 @@ const finishQuiz = async () => {
           onClick={handleNext}
           disabled={!answers[currentQuestion] || savingResult}
         >
-          {savingResult && <Loader2 className="mr-2 h-4 w-4 animate-spin text-foreground" />}
+          {savingResult && <Loader2 className="mr-2 h-4 w-4 animate-spin text-background" />}
           {currentQuestion < quizData.length - 1 ? "Next Question" : "Finish Quiz"}
         </Button>
       </CardFooter>

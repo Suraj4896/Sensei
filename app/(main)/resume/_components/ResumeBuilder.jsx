@@ -23,7 +23,7 @@ import EntryForm from "./EntryForm";
 import { entriesToMarkdown } from "@/app/lib/helper";
 import MDEditor from "@uiw/react-md-editor";
 import { useUser } from "@clerk/nextjs";
-import html2pdf from "html2pdf.js/dist/html2pdf.min.js";
+import html2pdf from "html2pdf.js";
 import { toast } from "sonner";
 
 const ResumeBuilder = ({ initialContent }) => {
@@ -135,17 +135,24 @@ const ResumeBuilder = ({ initialContent }) => {
     setIsGenerating(true);
     try {
       const element = document.getElementById("resume-pdf");
+      if (!element) {
+        toast.error("Could not find resume content to generate PDF");
+        return;
+      }
+      
       const opt = {
         margin: [15, 15],
-        filename: "resume.pdf",
+        filename: `${user?.fullName || 'My'}_Resume.pdf`,
         image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2 },
+        html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
       };
 
-      await html2pdf().from(element).set(opt).save();
+      await html2pdf().set(opt).from(element).save();
+      toast.success("Resume PDF downloaded successfully!");
     } catch (error) {
       console.error("PDF generation error:", error);
+      toast.error("Failed to generate PDF. Please try again.");
     } finally {
       setIsGenerating(false);
     }
@@ -405,12 +412,16 @@ const ResumeBuilder = ({ initialContent }) => {
             />
           </div>
           <div className="hidden">
-            <div id="resume-pdf" className="pdf-safe-colors p-6 text-black bg-white">
+            <div id="resume-pdf" className="pdf-safe-colors p-8 text-black bg-white max-w-[800px] mx-auto">
               <MDEditor.Markdown
                 source={previewContent}
                 style={{
                   background: "white",
                   color: "black",
+                  fontFamily: "Arial, sans-serif",
+                  fontSize: "12pt",
+                  lineHeight: "1.5",
+                  padding: "20px",
                 }}
               />
             </div>

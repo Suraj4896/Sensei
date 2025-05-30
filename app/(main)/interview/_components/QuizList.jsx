@@ -47,7 +47,7 @@ const QuizList = ({ assessments }) => {
               return (
                 <Card
                   key={assessment.id}
-                  className="cursor-pointer hover:bg-muted/50 transition-colors"
+                  className="cursor-pointer bg-[#171616] hover:bg-muted/50 transition-colors"
                   onClick={() => setSelectedQuiz(assessment)}
                 >
                   <CardHeader>

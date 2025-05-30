@@ -40,7 +40,7 @@ export default function CoverLetterList({ coverLetters }) {
 
   if (!coverLetters?.length) {
     return (
-      <Card>
+      <Card className="bg-background">
         <CardHeader>
           <CardTitle>No Cover Letters Yet</CardTitle>
           <CardDescription>
@@ -54,7 +54,7 @@ export default function CoverLetterList({ coverLetters }) {
   return (
     <div className="space-y-4">
       {coverLetters.map((letter) => (
-        <Card key={letter.id} className="group relative ">
+        <Card key={letter.id} className="group relative bg-muted ">
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>

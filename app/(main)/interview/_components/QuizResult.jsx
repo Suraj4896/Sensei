@@ -75,11 +75,11 @@ const QuizResult = ({ result, hideStartNew, onStartNew }) => {
   
                 <div className="space-y-2 text-sm">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-muted p-3 rounded-lg">
+                    <div className="bg-[#222222] p-3 rounded-lg">
                       <p className="font-medium">Your Answer</p>
                       <p className="text-muted-foreground">{q.userAnswer || 'Not answered'}</p>
                     </div>
-                    <div className="bg-muted p-3 rounded-lg">
+                    <div className=" bg-[#222222] p-3 rounded-lg">
                       <p className="font-medium">Correct Answer</p>
                       <p className="text-muted-foreground">{q.answer || 'No answer recorded'}</p>
                     </div>

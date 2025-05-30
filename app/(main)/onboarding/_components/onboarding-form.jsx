@@ -107,7 +107,7 @@ const OnboardingForm = ({ industries }) => {
                 <SelectTrigger className="w-full bg-background" id="industry">
                   <SelectValue placeholder="Select an industry" />
                 </SelectTrigger>
-                <SelectContent className="w-full">
+                <SelectContent className="w-full bg-background">
                   {industries.map((ind) => (
                     <SelectItem value={ind.id} key={ind.id}>
                       {ind.name}
@@ -134,7 +134,7 @@ const OnboardingForm = ({ industries }) => {
                   <SelectTrigger className="w-full" id="industry">
                     <SelectValue placeholder="Select an industry" />
                   </SelectTrigger>
-                  <SelectContent className="w-full">
+                  <SelectContent className="w-full bg-background">
                     {selectedIndustry?.subIndustries.map((ind) => (
                       <SelectItem value={ind} key={ind}>
                         {ind}
