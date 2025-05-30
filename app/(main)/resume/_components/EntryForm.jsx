@@ -137,11 +137,11 @@ const EntryForm = ({ type, entries, onChange }) => {
         })}
       </div>
       {isAdding && (
-        <Card>
+        <Card className="bg-background">
           <CardHeader>
             <CardTitle>Add {type}</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 bg-background">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Input
